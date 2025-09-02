@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ModelAndView</title>
+  </head>
+  <body>
+    <h1>Exemplo ModelAndView</h1>
+
+    <!-- chamada da chave criada no controller (professor) 
+     assim busca os valores que estao contidos dentro da modelAndView/controller-->
+    <p th:text="${professor}">teste</p>
+    <ul>
+      <li th:each="aluno : ${alunos}" th:text="${aluno}">---</li>
+    </ul>
+    <!-- if ou uless -->
+    <p th:if="${ehVerdade}">Java é mais divertido que Python !</p>
+  </body>
+</html>
