@@ -1,6 +1,7 @@
 package br.com.aweb.gerenciamento_alunos.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,4 +31,13 @@ public class AlunosService {
         alunoRepository.deleteById(id);
     }
 
+    public Aluno buscarId(Long id){
+        Optional<Aluno> aluno = alunoRepository.findById(id);
+        if (aluno.isPresent()){
+            return aluno.get();
+        }
+        throw new RuntimeException("Aluno não encontrado !");
+    }
+
+    
 }

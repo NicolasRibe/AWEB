@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -41,5 +42,31 @@ public class AlunoController {
         atributes.addFlashAttribute("message", "Aluno salvo com sucesso !!");
         return "redirect:/alunos";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editaAluno(Model model, @PathVariable Long id,RedirectAttributes attributes){
+        try{
+             model.addAttribute("aluno", alunosService.buscarId(id));
+             return "form";
+        }catch (RuntimeException e){
+            attributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/alunos";
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, RedirectAttributes attributes){
+
+        try { 
+            alunosService.deleteAluno(id);
+            attributes.addFlashAttribute("message", "Aluno excluido com sucesso !");
+            
+        } catch (Exception e) {
+             attributes.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/alunos";
+    }
+
 
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" th:href="@{/css/style.css}" /> -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" /> 
     <title>Listagem de Alunos</title>
 </head>
 
@@ -37,14 +37,14 @@
             <td th:text="${aluno.nome}">---</td>
             <td th:text="${aluno.idade}">---</td>
             <td th:text="${aluno.curso}">---</td>
-            <!-- <td>
-                <a th:href="@{'/products/edit/' + ${prod.id}}">UPDATE</a>
-            </td> -->
+             <td>
+                <a th:href="@{'/alunos/edit/' + ${aluno.id}}">UPDATE</a>
+            </td> 
             <td>
-                <!-- <a th:href="@{'/products/delete/' + ${prod.id}}"
-                    onclick="return confirm('Tem certeza que deseja excluir este produto?');">
+                 <a th:href="@{'/alunos/delete/' + ${aluno.id}}"
+                    onclick="return confirm('Tem certeza que deseja excluir este aluno?');">
                     DELETE
-                </a> -->
+                </a> 
             </td>
         </tr>
     </table>
