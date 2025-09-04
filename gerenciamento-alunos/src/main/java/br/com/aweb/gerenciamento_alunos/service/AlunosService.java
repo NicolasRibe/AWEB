@@ -39,5 +39,7 @@ public class AlunosService {
         throw new RuntimeException("Aluno não encontrado !");
     }
 
-    
+    public List<Aluno> buscaAlunoNome(String nome){
+        return alunoRepository.findByNomeContainingIgnoreCase(nome);
+    }  
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.aweb.gerenciamento_alunos.model.Aluno;
@@ -44,29 +45,36 @@ public class AlunoController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editaAluno(Model model, @PathVariable Long id,RedirectAttributes attributes){
-        try{
-             model.addAttribute("aluno", alunosService.buscarId(id));
-             return "form";
-        }catch (RuntimeException e){
+    public String editaAluno(Model model, @PathVariable Long id, RedirectAttributes attributes) {
+        try {
+            model.addAttribute("aluno", alunosService.buscarId(id));
+            return "form";
+        } catch (RuntimeException e) {
             attributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/alunos";
         }
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes attributes){
+    public String delete(@PathVariable Long id, RedirectAttributes attributes) {
 
-        try { 
+        try {
             alunosService.deleteAluno(id);
             attributes.addFlashAttribute("message", "Aluno excluido com sucesso !");
-            
+
         } catch (Exception e) {
-             attributes.addFlashAttribute("error", e.getMessage());
+            attributes.addFlashAttribute("error", e.getMessage());
         }
 
         return "redirect:/alunos";
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam(required = false) String nome, Model model) {
+        if (nome != null && !nome.isBlank()) {
+            model.addAttribute("alunos", alunosService.buscaAlunoNome(nome));
+        }
+        return "search";
+    }
 
 }
