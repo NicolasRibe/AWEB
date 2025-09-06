@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do List</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+     <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="navbar-brand" th:href="@{todo}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="navbar-brand" th:href="@{todo/create}">Nova Tarefa</a>
+
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container">
+
+      <h1>Lista de Tarefas</h1>
+
+      <table class="table table-dracula table-striped-columns table-hover table-bordered" th:unless="${#lists.isEmpty(todos)}">
+
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Criado em</th>
+            <th scope="col">Data de Entrega</th>
+            <th scope="col">Finalizado em</t>
+            <th scope="col">Ações</t>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="todo : ${todos}">
+            <th scope="row" th:text="${todo.id}">-----</th>
+            <td th:text="${todo.title}">-----</td>
+            <td th:text="${#temporals.format(todo.createdAt)}">-----</td>
+            <td th:text="${#temporals.format(todo.deadline)}">-----</td>
+            <td th:text="${#temporals.format(todo.finishedAt) ?: '-'}">-----</td>
+            <td>
+                <a href="" class="btn btn-sm btn-primary">Concluir</a>
+                <a href="" class="btn btn-sm btn-secondary">Editar</a>
+                <a href="" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+        <p th:if="${#lists.isEmpty(todos)}"> Nenhuma tarefa cadastrada.</p>
+       <a th:href="@{todo/create}" class="btn btn-sm btn-success">Nova tarefa</a>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
