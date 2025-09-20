@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:unless="${produto.id}">Novo Produto</title>
+    <title th:if="${produto.id}">Editar Produto</title>
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/produtos}">Página Inicial</a>
+      </div>
+    </nav>
+
+    <main class="container">
+      <h1 th:unless="${produto.id}" class="mt-4 mb-5">
+        Novo Produto
+      </h1>
+      <h1 th:if="${produto.id}" class="mt-4 mb-5">
+        Editar Produto
+      </h1>
+
+      <form method="POST" th:object="${produto}">
+        <input type="hidden" th:field="${produto.id}" />
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nome"
+            th:field="*{nome}"
+          />
+          <ul>
+            <li
+              th:each="error : ${#fields.errors('nome')}"
+              th:text="${error}"
+              class="text-danger"
+            ></li>
+          </ul>
+        </div>
+        <div class="mb-3">
+          <label for="descricao" class="form-label"
+            >Descrição:</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="descricao"
+            th:field="*{descricao}"
+          />
+          <ul>
+            <li
+              th:each="error : ${#fields.errors('descricao')}"
+              th:text="${error}"
+              class="text-danger"
+            ></li>
+          </ul>
+        </div>
+        <div class="mb-3">
+          <label for="preco" class="form-label">Preço:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="preco"
+            th:field="*{preco}"
+          />
+          <ul>
+            <li
+              th:each="error : ${#fields.errors('preco')}"
+              th:text="${error}"
+              class="text-danger"
+            ></li>
+          </ul>
+        </div>
+        <div class="mb-3">
+          <label for="quantidadeEstoque" class="form-label">Quantidade:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="quantidadeEstoque"
+            th:field="*{quantidadeEstoque}"
+          />
+          <ul>
+            <li
+              th:each="error : ${#fields.errors('quantidadeEstoque')}"
+              th:text="${error}"
+              class="text-danger"
+            ></li>
+          </ul>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </form>
+    </main>
+
+  </body>
+</html>
