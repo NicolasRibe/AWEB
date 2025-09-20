@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}" /> 
+    <title>Listagem de Alunos</title>
+</head>
+
+<body>
+
+    <h1>Listagem de Alunos</h1>
+
+    <div th:if="${message}" style="color: green; font-weight: bold;">
+        <p th:text="${message}"></p>
+    </div>
+
+    <div th:if="${error}" style="color: red; font-weight: bold;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <p>
+        <a th:href="@{/alunos/new}">Inserir Aluno</a>
+    </p>
+
+    <p>
+        <a th:href="@{/alunos/search}">Buscar Aluno</a>
+    </p>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>NOME</th>
+            <th>IDADE</th>
+            <th>CURSO</th>
+            <th></th>
+        </tr>
+        <tr th:each="aluno : ${alunos}">
+            <td th:text="${aluno.id}">---</td>
+            <td th:text="${aluno.nome}">---</td>
+            <td th:text="${aluno.idade}">---</td>
+            <td th:text="${aluno.curso}">---</td>
+             <td>
+                <a th:href="@{'/alunos/edit/' + ${aluno.id}}">UPDATE</a>
+            </td> 
+            <td>
+                 <a th:href="@{'/alunos/delete/' + ${aluno.id}}"
+                    onclick="return confirm('Tem certeza que deseja excluir este aluno?');">
+                    DELETE
+                </a> 
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

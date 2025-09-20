@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página Inicial- Ordens de Serviço</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/service-order}">Página Inicial</a>
+      </div>
+    </nav>
+    <main class="container">
+      <h1 class="mt-4 mb-5">Ordens de Serviço</h1>
+      <a th:href="@{/service-order/create}" class="btn btn-sm btn-primary mb-3"
+        >Nova ordem de serviço</a
+      >
+      <table
+        th:unless="${#lists.isEmpty(serviceOrders)}"
+        class="table table-striped table-hover table-bordered border-secondary"
+      >
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Descricao Servico</th>
+            <th scope="col">Criado em</th>
+            <th scope="col">Data de entrega</th>
+            <th scope="col">Finalizado em</th>
+            <th scope="col">Status</th>
+            <th scope="col">Prioridade</th>
+            <th scope="col">Solicitante</th>
+            <th scope="col">Local Solicitado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="serviceOrder : ${serviceOrders}">
+            <th scope="row" th:text="${serviceOrder.id}">---</th>
+            <td th:text="${serviceOrder.title}"></td>
+            <td th:text="${serviceOrder.description}"></td>
+            <td th:text="${serviceOrder.nameApplicant}"></td>
+            <td th:text="${#temporals.format(serviceOrder.createdAt)}">---</td>
+            <td th:text="${#temporals.format(serviceOrder.finishedAt) ?: '-'}">
+              ---
+            </td>
+            <td>
+              <form
+                method="POST"
+                class="d-inline"
+                th:action="@{/service-order/finish/{id}(id=${serviceOrder.id})}"
+              >
+                <button
+                  th:classappend="${serviceOrder.finishedAt} != null ? 'disabled' : ''"
+                  type="submit"
+                  class="btn btn-sm btn-primary"
+                >
+                  Concluir
+                </button>
+              </form>
+              <a
+                th:href="@{/service-order/edit/{id}(id=${serviceOrder.id})}"
+                class="btn btn-sm btn-secondary"
+                th:classappend="${serviceOrder.finishedAt} != null ? 'disabled' : ''"
+                >Editar</a
+              >
+              <form
+                method="POST"
+                class="d-inline"
+                th:action="@{/service-order/delete/{id}(id=${serviceOrder.id})}"
+              >
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Deletar
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p th:if="${#lists.isEmpty(serviceOrders)}">
+        Nenhuma ordem de serviço cadastrada.
+      </p>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

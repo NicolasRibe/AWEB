@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <link rel="stylesheet" th:href="@{/css/style.css}" /> 
+    <title>Produtos - Buscar por nome</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Buscar aluno por nome</h1>
+
+        <form th:action="@{/alunos/search}" method="get" role="search">
+            <label for="nome" class="muted">Nome do Aluno</label>
+            <input id="nome" name="nome" type="text" placeholder="Ex.: Nicolas" th:value="${param.nome}" />
+            <button type="submit">Buscar</button>
+            <a th:href="@{/alunos}" class="button">Voltar à lista</a>
+        </form>
+
+        <div th:if="${alunos != null}">
+            <p class="muted" th:if="${#lists.isEmpty(alunos)}">Nenhum aluno encontrado.</p>
+
+            <table th:if="${!#lists.isEmpty(alunos)}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="aluno : ${alunos}">
+                        <td th:text="${aluno.id}">1</td>
+                        <td th:text="${aluno.nome}">Exemplo</td>
+                        <td>
+                            <a th:href="@{'/alunos/edit/' + ${aluno.id}}">Editar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
