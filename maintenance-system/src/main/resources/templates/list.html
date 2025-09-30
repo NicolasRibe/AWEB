@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}" /> 
+    <title>Listagem de Produtos</title>
+</head>
+
+<body>
+
+    <h1>Listagem de Ordens de Serviço</h1>
+
+    <div th:if="${message}" style="color: green; font-weight: bold;">
+        <p th:text="${message}"></p>
+    </div>
+
+    <div th:if="${error}" style="color: red; font-weight: bold;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <p>
+        <a th:href="@{/ordensServ/newOrdem}">Inserir Produto</a>
+    </p>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Descrição de serviço</th>
+            <th>Criação de OS</th>
+            <th>Status</th>
+            <th>Prioridade</th>
+            <th>Nome do solicitante</th>
+            <th>Local</th>
+            <th></th>
+        </tr>
+        <tr th:each="ordem : ${ordens}">
+            <td th:text="${ordem.descricaoServico}">---</td>
+            <td th:text="${ordem.status}">---</td>
+            <td th:text="${ordem.prioridade}">---</td>
+            <td th:text="${ordem.nomeSolicitante}">---</td>
+            <td th:text="${ordem.local}">---</td>
+            <td>
+                <a th:href="@{'/ordemServ/edit/{id}' + ${ordem.id}}">UPDATE</a>
+            </td>
+            <td>
+                <a th:href="@{'/ordemServ/delete/' + ${ordem.id}}"
+                    onclick="return confirm('Tem certeza que deseja excluir este produto?');">
+                    DELETE
+                </a>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

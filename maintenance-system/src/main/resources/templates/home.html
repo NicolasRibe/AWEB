@@ -14,16 +14,16 @@
   <body>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/service-order}">Página Inicial</a>
+        <a class="navbar-brand" th:href="@{/ordensServ}">Página Inicial</a>
       </div>
     </nav>
     <main class="container">
       <h1 class="mt-4 mb-5">Ordens de Serviço</h1>
-      <a th:href="@{/service-order/create}" class="btn btn-sm btn-primary mb-3"
+      <a th:href="@{/ordensServ/newOrdem}" class="btn btn-sm btn-primary mb-3"
         >Nova ordem de serviço</a
       >
       <table
-        th:unless="${#lists.isEmpty(serviceOrders)}"
+        th:unless="${#lists.isEmpty(ordensServ)}"
         class="table table-striped table-hover table-bordered border-secondary"
       >
         <thead>
@@ -41,13 +41,16 @@
         </thead>
 
         <tbody>
-          <tr th:each="serviceOrder : ${serviceOrders}">
+          <tr th:each="serviceOrder : ${ordens}">
             <th scope="row" th:text="${serviceOrder.id}">---</th>
-            <td th:text="${serviceOrder.title}"></td>
-            <td th:text="${serviceOrder.description}"></td>
-            <td th:text="${serviceOrder.nameApplicant}"></td>
-            <td th:text="${#temporals.format(serviceOrder.createdAt)}">---</td>
-            <td th:text="${#temporals.format(serviceOrder.finishedAt) ?: '-'}">
+            <td th:text="${serviceOrder.descricaoServico}"></td>
+            <td th:text="${serviceOrder.status}"></td>
+            <td th:text="${serviceOrder.deadLineOs}"></td>
+            <td th:text="${serviceOrder.prioridade}"></td>
+            <td th:text="${serviceOrder.nomeSolicitante}"></td>
+            <td th:text="${serviceOrder.local}"></td>
+            <td th:text="${#temporals.format(serviceOrder.createdOs)}">---</td>
+            <td th:text="${#temporals.format(serviceOrder.finishedOs) ?: '-'}">
               ---
             </td>
             <td>
