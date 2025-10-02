@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-@RequestMapping("ordensServ")
+@RequestMapping("/ordensServ")
 public class ControllerManutency {
 
   @Autowired
@@ -29,9 +29,7 @@ public class ControllerManutency {
   @GetMapping
   public String listaOrdedens(Model model) {
     model.addAttribute("ordens", serviceManutency.listAll());
-
     return "list";
-
   }
 
   @GetMapping("/newOrdem")
