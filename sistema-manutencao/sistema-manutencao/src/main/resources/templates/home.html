@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página Inicial- Ordens de Serviço</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/ordemServico}">Página Inicial</a>
+      </div>
+    </nav>
+    <main class="container">
+      <h1 class="mt-4 mb-5">Ordens de Serviço</h1>
+      <a th:href="@{/ordemServico/new}" class="btn btn-sm btn-primary mb-3"
+        >Nova ordem de serviço</a
+      >
+      <table
+        th:unless="${#lists.isEmpty(todasOrdens)}"
+        class="table table-striped table-hover table-bordered border-secondary"
+      >
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titulo da Ordem</th>
+            <th scope="col">Solicitante</th>
+            <th scope="col">Descrição Ordem</th>
+            <th scope="col">Criação Ordem</th>
+            <th scope="col">Finalização da Ordem</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="ordem : ${todasOrdens}">
+            <th scope="row" th:text="${ordem.id}">---</th>
+            <td th:text="${ordem.tituloOrdem}"></td>
+            <td th:text="${ordem.solicitanteOrdem}"></td>
+            <td th:text="${ordem.descricaoOrdem}"></td>
+            <td th:text="${#temporals.format(ordem.criacaoOrdem)}">---</td>
+            <td th:text="${#temporals.format(ordem.finalizacaoOrdem) ?: '-'}">
+              ---
+            </td>
+            <td>
+                            <form
+                method="POST"
+                class="d-inline"
+                th:action="@{/ordemServico/finalizar/{id}(id=${ordem.id})}"
+              >
+                <button type="submit" class="btn btn-sm btn-primary">
+                  Finalizar
+                </button>
+              </form>
+              <a
+                th:href="@{/ordemServico/edit/{id}(id=${ordem.id})}"
+                class="btn btn-sm btn-secondary"
+                th:classappend="${ordem.finalizacaoOrdem} != null ? 'disabled' : ''"
+                >Editar</a
+              >
+              <form
+                method="POST"
+                class="d-inline"
+                th:action="@{/ordemServico/delete/{id}(id=${ordem.id})}"
+              >
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Deletar
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p th:if="${#lists.isEmpty(todasOrdens)}">
+        Nenhuma ordem de serviço cadastrada.
+      </p>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
