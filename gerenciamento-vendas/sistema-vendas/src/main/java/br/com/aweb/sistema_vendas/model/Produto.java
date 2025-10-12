@@ -34,7 +34,7 @@ public class Produto {
     @NotBlank(message = "O nome do produto é obrigatório")
     @Column(nullable = false, length =100) 
     private String nome;
-
+    
     @NotBlank(message = "A descrição do produto é obrigatória")
     @Column(nullable = false, length = 250) 
     private String descricao;
