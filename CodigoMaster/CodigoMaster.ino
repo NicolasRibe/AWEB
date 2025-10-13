@@ -15,7 +15,7 @@
 
 
 byte mac[] = { 0xA8, 0x61, 0x0A, 0x50, 0x4C, 0x7F };  //Endereço MAC  DA PLACA DE ETHERNET DO OPTA
-char serverAddress[] = "10.110.18.6";                 // VARIAVEL PARA ENDEREÇO DE REDE DO SERVER, DEIXAR VAZIO SE FOR ATRIBUIR DHCP
+char serverAddress[] = "";                 // VARIAVEL PARA ENDEREÇO DE REDE DO SERVER, DEIXAR VAZIO SE FOR ATRIBUIR DHCP
 int port = 9095;                                      //PORTA PARACOMUNICAÇÃO NODE-RED
 
 EthernetClient ethClient;                                        //Cuida da conexão física (TCP).
@@ -36,6 +36,13 @@ uint16_t ht = 0;  //horimetro - horas totais
 bool checkRemoto = false;
 //variavel de validação da mudança de estado do compressor
 bool estadoEnvio = false;
+
+//variaveis para controle de leitura dos dados sem travamento 
+//esta guarda o timer da ultima leitura
+unsigned long lastRead = 0;
+//esta define o tempo de cada leitura;
+const unsigned long READ_INTERVAL = 1000; // 1 segundo
+
 
 constexpr auto baudrate{ 9600 };
 
@@ -69,7 +76,7 @@ void setup() {
     while (true)
       ;  // trava o programa se DHCP falhar
   }
-  /*
+  
   server.begin();
   delay(1000);
 
@@ -79,7 +86,7 @@ void setup() {
   Serial.println("Cliente Modbus RTU");
 
   RS485.setDelays(preDelayBR, postDelayBR);  // TEMPO PARA TRANMISSÃO E RECEPÇÃO DOS DADOS
-*/
+
   // Inicia o cliente Modbus RTU
   if (!ModbusRTUClient.begin(baudrate, SERIAL_8N1)) {
     Serial.println("Falha ao iniciar o Cliente Modbus RTU!");
@@ -91,21 +98,34 @@ void setup() {
 void loop() {
 
   Serial.println("__________________________________________________________________");
+  //retorna o tempo (em milissegundos) que o CLP fooi ligado
+  unsigned long currentMillis = millis();
 
-  
+   if (currentMillis - lastRead >= READ_INTERVAL) {
+    lastRead = currentMillis;
 
-
-  
-  readHoldingRegisterValues();
-  while( readHoldingRegisterValues() == true ){
-     enviarDadosParaAPI();
-  }do{
-    Serial.println("Falha na leitura e envio dos dados;");
+    if (readHoldingRegisterValues()) {
+      enviarDadosParaAPI();
+    } else {
+      Serial.println("Falha na leitura Modbus");
+    }
   }
+
+  // //Feita a chamada da leitura dos registradores se caso  true ;
+  // //Entra no loob enquanto for true continua lendo;
+  // readHoldingRegisterValues();
+  // while( readHoldingRegisterValues()){
+  //   //chama a função de envio para o end point*
+  //    enviarDadosParaAPI();
+  
+  //    delay(1000); 
+  // } do {
+  //   Serial.println("Falha na leitura e envio dos dados;");
+  // }
   
 }
 
-String readHoldingRegisterValues() {
+bool readHoldingRegisterValues() {
 
 
   Serial.println("Lendo temperatura da saida de ar comprimido (TS)");
@@ -123,11 +143,20 @@ String readHoldingRegisterValues() {
     Serial.print("TS: ");
     Serial.println(ts);
 
-    return String(ts + to  + po + ps + hc + ht );
-
+    Serial.println("Dados lidos com sucesso:");
+    Serial.print("TS: "); Serial.print(ts); Serial.println(" °C");
+    Serial.print("TA: "); Serial.print(ta); Serial.println(" °C");
+    Serial.print("TO: "); Serial.print(to); Serial.println(" °C");
+    Serial.print("PO: "); Serial.print(po); Serial.println(" °C");
+    Serial.print("PS: "); Serial.print(ps / 10.0, 1); Serial.println(" bar");
+    Serial.print("HC: "); Serial.print(hc); Serial.println(" horas");
+    Serial.print("HT: "); Serial.print(ht); Serial.println(" horas");
+    
+    return true;
   } else {
-    Serial.print("Erro na leitura do registrador 40003: ");
+    Serial.print("Erro na leitura dos registradores: ");
     Serial.println(ModbusRTUClient.lastError());
+    return false;
   }
 
   // Monta e retorna uma string com os dados separados por vírgula

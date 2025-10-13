@@ -16,7 +16,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity
 @Table(name = "produtos")
@@ -39,12 +41,20 @@ public class Produto {
     @Column(nullable = false, length = 250) 
     private String descricao;
 
-    @NotNull(message = "A categoria do produto é obrigatória")
+    @NotNull(message = "O preço do produto é obrigatório")
     @Column(nullable = false)
     private BigDecimal preco;
 
     @NotNull
     @PositiveOrZero(message = "A quantidade em estoque não pode ser negativa")
-    private Integer quantidadeEstoque;
+    @Column(name = "quantidade_em_estoque")
+    private Integer quantidadeEmEstoque;
+
+    @Version
+    private Integer version;
+
+
+
+
 
 }
