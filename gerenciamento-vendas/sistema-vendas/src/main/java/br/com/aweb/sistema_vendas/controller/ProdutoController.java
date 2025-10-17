@@ -62,5 +62,6 @@ public class ProdutoController {
         // redireciona para a página de listagem de produtos
         return "redirect:/produtos";
     }
+    
 
 }
