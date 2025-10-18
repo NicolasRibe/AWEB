@@ -1,0 +1,24 @@
+Comandos para instanciar o Docker//
+
+// comando para gerar jar da aplicação:
+
+	./mvnw clean package 
+
+
+Após isso dentro da pasta target ira conter o aplicável da solução ;
+
+Docker-compose - orquestrador dos containers
+
+Docker-file - volumes dentro do Docker 
+
+Após isso o app sempre terá que ser adicionado no Docker compose ;
+
+teremos que fazer a mudança de o acesso a aplicação por meio do Docker 
+
+por meio de variável de ambiente;
+
+comando para iniciar o serviço e criar aplicação:
+
+- docker-compose up --build 
+
+
