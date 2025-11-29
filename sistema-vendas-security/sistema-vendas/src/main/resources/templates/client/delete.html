@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Excluir Cliente</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/clients}">Lista de Clientes</a>
+      </div>
+    </nav>
+    <div class="container mt-4">
+      <h1>Excluir cliente</h1>
+
+      <div class="alert alert-danger">
+        <p>
+          Tem certeza que deseja excluir o cliente
+          <strong th:text="${client.fullName}"></strong>?
+        </p>
+      </div>
+
+      <table class="table table-bordered">
+        <tr>
+          <th>Nome</th>
+          <td th:text="${client.fullName}"></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td th:text="${client.email}"></td>
+        </tr>
+        <tr>
+          <th>CPF</th>
+          <td th:text="${client.cpf}"></td>
+        </tr>
+        <tr>
+          <th>Telefone</th>
+          <td th:text="${client.telephone}"></td>
+        </tr>
+        <tr>
+          <th>Telefone</th>
+          <td th:text="${client.street}"></td>
+        </tr>
+        <tr>
+          <th>Numero</th>
+          <td th:text="${client.number}"></td>
+        </tr>
+        <tr>
+          <th>Complemento</th>
+          <td th:text="${client.complement}"></td>
+        </tr>
+        <tr>
+          <th>Bairro</th>
+          <td th:text="${client.neighboorhood}"></td>
+        </tr>
+        <tr>
+          <th>Cidade</th>
+          <td th:text="${client.city}"></td>
+        </tr>
+        <tr>
+          <th>UF</th>
+          <td th:text="${client.uf}"></td>
+        </tr>
+        <tr>
+          <th>Bairro</th>
+          <td th:text="${client.zipCode}"></td>
+        </tr>
+      </table>
+
+      <form th:action="@{/clients/delete/{id}(id=${client.id})}" method="post">
+        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+        <a th:href="@{/clients}" class="btn btn-secondary">Cancelar</a>
+      </form>
+    </div>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  </body>
+</html>

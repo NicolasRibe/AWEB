@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title th:unless="${client.id == null}">Edição de cliente</title>
+    <title th:if="${client.id == null}">Cadastro de cliente</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/clients}">Lista de Clientes</a>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <h2
+        th:text="${client.id == null} ? 'Criar Cliente' : 'Editar Cliente'"
+      ></h2>
+      <form
+        th:action="@{${client.id == null} ? '/clients/create' : '/clients/edit/' + ${client.id}}"
+        th:object="${client}"
+        method="post"
+      >
+        <div class="mb-3">
+          <label for="fullName" class="form-label">Nome</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fullName"
+            th:field="*{fullName}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('fullName')}"
+            th:errors="*{fullName}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            th:field="*{email}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('email')}"
+            th:errors="*{email}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="preco" class="form-label">CPF</label>
+          <input type="text" class="form-control" id="cpf" th:field="*{cpf}" />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('cpf')}"
+            th:errors="*{cpf}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">Telefone</label>
+          <input
+            type="tel"
+            class="form-control"
+            id="telephone"
+            th:field="*{telephone}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('telephone')}"
+            th:errors="*{telephone}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">Rua</label>
+          <input
+            type="text"
+            class="form-control"
+            id="street"
+            th:field="*{street}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('street')}"
+            th:errors="*{street}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">Numero</label>
+          <input
+            type="number"
+            class="form-control"
+            id="number"
+            th:field="*{number}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('number')}"
+            th:errors="*{number}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">Complemento</label>
+          <input
+            type="text"
+            class="form-control"
+            id="complement"
+            th:field="*{complement}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('complement')}"
+            th:errors="*{complement}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">Bairro</label>
+          <input
+            type="text"
+            class="form-control"
+            id="neighboorhood"
+            th:field="*{neighboorhood}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('neighboorhood')}"
+            th:errors="*{neighboorhood}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">Cidade</label>
+          <input
+            type="text"
+            class="form-control"
+            id="city"
+            th:field="*{city}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('city')}"
+            th:errors="*{city}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">UF</label>
+          <input
+            type="text"
+            maxlength="2"
+            class="form-control"
+            id="uf"
+            th:field="*{uf}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('uf')}"
+            th:errors="*{uf}"
+          ></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="amount" class="form-label">CEP</label>
+          <input
+            type="text"
+            class="form-control"
+            id="zipCode"
+            th:field="*{zipCode}"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('zipCode')}"
+            th:errors="*{zipCode}"
+          ></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a th:href="@{/clients}" class="btn btn-secondary">Cancelar</a>
+      </form>
+    </div>
+  </body>
+</html>

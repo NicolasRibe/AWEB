@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <title>Clientes</title>
+  </head>
+  <body>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/clients}">Lista de Clientes</a>
+      </div>
+    </nav>
+    <main class="container mt-5">
+      <a th:href="@{/clients/create}" class="btn btn-primary mb-3"
+        >Criar Novo Cliente</a
+      >
+
+      <table
+        th:unless="${#lists.isEmpty(clients)}"
+        class="table text-center table-hover table-bordered border-secondary"
+      >
+        <thead>
+          <tr class="table-secondary border-secondary">
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Email</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Rua</th>
+            <th scope="col">Numero</th>
+            <th scope="col">Complemento</th>
+            <th scope="col">Bairro</th>
+            <th scope="col">Cidade</th>
+            <th scope="col">UF</th>
+            <th scope="col">CEP</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="client : ${clients}">
+            <th scope="row" th:text="${client.id}">id</th>
+            <td th:text="${client.fullName}"></td>
+            <td th:text="${client.email}"></td>
+            <td th:text="${client.cpf}"></td>
+            <td th:text="${client.telephone}"></td>
+            <td th:text="${client.street}"></td>
+            <td th:text="${client.number}"></td>
+            <td th:text="${client.complement}"></td>
+            <td th:text="${client.neighboorhood}"></td>
+            <td th:text="${client.city}"></td>
+            <td th:text="${client.uf}"></td>
+            <td th:text="${client.zipCode}"></td>
+            <td>
+              <a
+                th:href="@{/clients/edit/{id}(id=${client.id})}"
+                class="btn btn-sm btn-secondary"
+              >
+                Editar
+              </a>
+
+              <a
+                th:href="@{/clients/delete/{id}(id=${client.id})}"
+                class="btn btn-sm btn-danger"
+                >Excluir</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p th:if="${#lists.isEmpty(clients)}">Nenhum Cliente cadastrado.</p>
+    </main>
+  </body>
+</html>
